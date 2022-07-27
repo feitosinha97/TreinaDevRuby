@@ -1,55 +1,66 @@
-puts "Bem-vindo ao Cookbook, sua rede social de receitas"
+INSERIR_RECEITA = 1
+VISUALIZAR_RECEITAS = 2
+BUSCAR_RECEITAS = 3
+SAIR = 4 #constantes em ruby
 
-receitas = [] #é um array
+def bem_vindo
+    puts "Bem-vindo ao Cookbook, sua rede social de receitas"
+end
 
-puts "[1] Cadastrar uma receita"
-puts "[2] Ver todas as receitas"
-puts "[3] Sair"
+def menu()
+    puts "[#{INSERIR_RECEITA}] Cadastrar uma receita"
+    puts "[#{VISUALIZAR_RECEITAS}] Ver todas as receitas"
+    puts "[#{BUSCAR_RECEITAS}] Buscar receitas"
+    puts "[#{SAIR}] Sair"
 
-print "Escolha uma opção: " #o gets fica na mesma linha em vez de na linha seguinte como no puts
-opcao = gets.to_i()
+    print "Escolha uma opção: " 
+    return gets.to_i()
+end
 
+def inserir_receita()
+    puts "Digite o nome da receita: "
+    nome = gets.chomp()
+    puts "Digite o tipo da receita: "
+    tipo = gets.chomp()
+    puts 
+    puts "Receita #{nome} cadastrada com sucesso!"
+    puts
+    return { nome: nome, tipo: tipo }
+end
 
-#while(1 = 1) #operador de igualdade, não de pergunta. valor de array. significa que vai jogar na posição 1 do array (segundo elemento) o valor de 1
-while(opcao != 3) do #operador de pergunta
-    if (opcao == 1)
-        puts "Digite o nome da receita: "
-        nome = gets.chomp() #o valor que a pessoa digitar nessa parte do programa será salvo na variável nome
+def imprimir_receitas(receitas)
+    puts "========= Receitas cadastradas =========="
+    receitas.each do |receita|
+        puts "#{receita[:nome]} - #{receita[:tipo]}"
+     end
+    puts
+    if receitas.empty?
+        puts "Nenhuma receita cadastrada"
+    end
+end
 
-        receitas << nome #receitas recebe os valores da variável nome, ou seja, a receita digitada pelo usuário vai pro array receitas
+bem_vindo()
 
-        # puts "Receita " + nome + " cadastrada com sucesso!"
-        puts #imprime linha em branco
-        puts "Receita #{nome} cadastrada com sucesso!"
-        puts
-    elsif (opcao == 2)
-        puts "========= Receitas cadastradas =========="
-        puts receitas
-        puts
-        puts
+receitas = []
+
+opcao = menu()
+
+loop do #loop infinito do ruby
+    if (opcao == INSERIR_RECEITA)
+        receitas << inserir_receita()
+    elsif (opcao == VISUALIZAR_RECEITAS)
+       imprimir_receitas(receitas)
+    elsif (opcao == SAIR)
+        break #quebra o loop
     else
         puts "Opção inválida."
     end
     
-    #linhas de código abaixo é pra que não fique loop infinito
+    opcao = menu()
 
-    puts "[1] Cadastrar uma receita"
-    puts "[2] Ver todas as receitas"
-    puts "[3] Sair"
-
-    print "Escolha uma opção: " #o gets fica na mesma linha em vez de na linha seguinte como no puts
-    opcao = gets.to_i() 
-
-    #aqui é um for em ruby
-    # for receita in receitas do
-    #    puts receita
-    #end
-    #método it é mais comum que o for
-   # receitas.each do |receita|
-    #    puts receita
-    #end
-    #pra cada item, ele vai iterando e executando algo
-    #na frente do do, qual a variável será usada em cada item, percorre o array usando o each, chamando cada casa de receita
 end
 
+puts
 puts "Obrigada por usar o cookbook."
+
+#exercício: fazer nova opção de "buscar receitas"
